@@ -1,0 +1,65 @@
+<main class="flex-1 bg-[#181818] p-8 overflow-y-auto min-h-screen">
+
+  <!-- Search Bar -->
+  <div class="flex justify-between items-center mb-10">
+    <input 
+      type="text" 
+      placeholder="What do you want to play?" 
+      class="w-1/2 bg-[#2a2a2a] rounded-full py-2 px-4 text-[#ccc] focus:outline-none"
+    >
+    <button class="bg-white text-black font-bold px-4 py-2 rounded-full">
+      Explore Premium
+    </button>
+  </div>
+
+  <!-- Album Info -->
+  <div class="flex gap-5 mb-10">
+   
+    <div class="flex flex-col">
+      <p class="text-[#b3b3b3]">Album</p>
+      <h2 class="text-3xl font-bold mb-2 text-white">The Tortured Poets Department</h2>
+      <p class="text-[#b3b3b3] mb-4">Taylor Swift • 2024 • 16 songs, 1 hr 5 min</p>
+
+      <div class="flex items-center gap-5">
+        <button class="bg-[#1ed760] w-12 h-12 rounded-full flex items-center justify-center text-black text-xl">
+          <i class='bx bx-play'></i>
+        </button>
+        <i class='bx bx-heart text-[#b3b3b3] cursor-pointer hover:text-white text-2xl'></i>
+        <i class='bx bx-dots-horizontal-rounded text-[#b3b3b3] cursor-pointer hover:text-white text-2xl'></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Songs Table -->
+  <table class="w-full text-left border-collapse text-[#ccc]">
+    <thead class="border-b border-[#333] text-[#999]">
+      <tr>
+        <th class="pb-2">#</th>
+        <th class="pb-2">Title</th>
+        <th class="pb-2">Artist</th>
+        <th class="pb-2">Time</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover:bg-[#2a2a2a]">
+        <td>1</td>
+        <td>Fortnight (feat. Post Malone)</td>
+        <td>Post Malone</td>
+        <td>3:48</td>
+      </tr>
+      <tr class="hover:bg-[#2a2a2a]">
+        <td>2</td>
+        <td>The Tortured Poets Department</td>
+        <td>Taylor Swift</td>
+        <td>4:53</td>
+      </tr>
+      <tr class="hover:bg-[#2a2a2a]">
+        <td>3</td>
+        <td>My Boy Only Breaks His Favorite Toys</td>
+        <td>Taylor Swift</td>
+        <td>3:23</td>
+      </tr>
+    </tbody>
+  </table>
+
+</main>
