@@ -1,0 +1,56 @@
+<div class="min-h-screen bg-gradient-to-b from-[#121212] to-[#1e1e1e] text-white flex justify-center">
+  <div class="w-full max-w-7xl px-6 md:px-20 py-10">
+    
+    <!-- Header del artista -->
+    <div class="relative mb-16">
+      <div class="absolute inset-0">
+        <img [src]="artist.image" alt="{{artist.name}}" class="w-full h-80 object-cover rounded-xl opacity-20 blur-xl">
+      </div>
+      <div class="relative flex flex-col md:flex-row items-center md:items-start gap-8">
+        <img [src]="artist.image" alt="{{artist.name}}" class="w-48 h-48 md:w-56 md:h-56 rounded-full object-cover border-4 border-green-500 shadow-2xl">
+        <div class="flex-1">
+          <h1 class="text-6xl font-extrabold mb-4">{{ artist.name }}</h1>
+          <p class="text-gray-400 text-lg mb-4">{{ artist.followers | number }} followers</p>
+          <div class="flex gap-3 flex-wrap">
+            <span *ngFor="let genre of artist.genres" class="bg-green-500 text-black px-4 py-2 rounded-full text-md font-semibold">{{ genre }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Tracks -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6 border-b border-gray-700 pb-2">Top Tracks</h2>
+      <div class="flex gap-4 overflow-x-auto py-2">
+        <div *ngFor="let track of artist.topTracks" class="min-w-[200px] bg-[#1e1e1e] p-4 rounded-lg hover:bg-green-500 hover:text-black cursor-pointer transition duration-300 flex flex-col items-center shadow-md">
+          <img [src]="track.cover" alt="{{track.title}}" class="w-full h-40 object-cover rounded-lg mb-3 shadow-lg">
+          <span class="font-medium text-center">{{ track.title }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Albums -->
+    <div class="mb-16">
+      <h2 class="text-3xl font-semibold mb-6 border-b border-gray-700 pb-2">Albums</h2>
+      <div class="flex gap-6 overflow-x-auto py-2">
+        <div *ngFor="let album of artist.albums" class="min-w-[180px] hover:scale-105 transform transition duration-300 cursor-pointer">
+          <img [src]="album.cover" alt="{{album.title}}" class="w-full h-56 rounded-xl object-cover shadow-lg">
+          <p class="mt-3 text-center text-lg font-medium">{{ album.title }}</p>
+          <p class="text-gray-400 text-center text-sm">{{ album.releaseDate | date:'longDate' }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Artists -->
+    <div>
+      <h2 class="text-3xl font-semibold mb-6 border-b border-gray-700 pb-2">Related Artists</h2>
+      <div class="flex gap-6 overflow-x-auto py-2">
+        <div *ngFor="let related of artist.relatedArtists" class="min-w-[140px] hover:scale-105 transform transition duration-300 cursor-pointer flex flex-col items-center">
+          <img [src]="related.image" alt="{{related.name}}" class="w-36 h-36 rounded-full object-cover shadow-lg mb-2">
+          <p class="text-center text-lg font-medium">{{ related.name }}</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

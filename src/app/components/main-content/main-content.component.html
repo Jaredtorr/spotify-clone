@@ -2,64 +2,101 @@
 
   <!-- Search Bar -->
   <div class="flex justify-between items-center mb-10">
-    <input 
-      type="text" 
-      placeholder="What do you want to play?" 
-      class="w-1/2 bg-[#2a2a2a] rounded-full py-2 px-4 text-[#ccc] focus:outline-none"
-    >
-    <button class="bg-white text-black font-bold px-4 py-2 rounded-full">
+    <div class="w-1/2 relative">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+        placeholder="What do you want to play?" 
+        class="w-full bg-[#2a2a2a] rounded-full py-2 px-4 text-[#ccc] focus:outline-none focus:ring-2 focus:ring-green-500"
+        [disabled]="!isAuthenticated"
+      >
+      <button 
+        (click)="onSearch()"
+        class="absolute right-2 top-1/2 -translate-y-1/2 bg-green-500 hover:bg-green-600 text-black rounded-full w-8 h-8 flex items-center justify-center"
+        [disabled]="!isAuthenticated"
+      >
+        <i class='bx bx-search'></i>
+      </button>
+    </div>
+    <button class="bg-white text-black font-bold px-4 py-2 rounded-full hover:bg-gray-200">
       Explore Premium
     </button>
   </div>
 
-  <!-- Album Info -->
-  <div class="flex gap-5 mb-10">
-   
-    <div class="flex flex-col">
-      <p class="text-[#b3b3b3]">Album</p>
-      <h2 class="text-3xl font-bold mb-2 text-white">The Tortured Poets Department</h2>
-      <p class="text-[#b3b3b3] mb-4">Taylor Swift • 2024 • 16 songs, 1 hr 5 min</p>
-
-      <div class="flex items-center gap-5">
-        <button class="bg-[#1ed760] w-12 h-12 rounded-full flex items-center justify-center text-black text-xl">
-          <i class='bx bx-play'></i>
-        </button>
-        <i class='bx bx-heart text-[#b3b3b3] cursor-pointer hover:text-white text-2xl'></i>
-        <i class='bx bx-dots-horizontal-rounded text-[#b3b3b3] cursor-pointer hover:text-white text-2xl'></i>
-      </div>
-    </div>
+  <!-- Mensaje si no está autenticado -->
+  <div *ngIf="!isAuthenticated" class="text-center py-20">
+    <i class='bx bx-music text-6xl text-gray-600 mb-4'></i>
+    <h2 class="text-2xl font-bold mb-2 text-white">Inicia sesión para escuchar música</h2>
+    <p class="text-gray-400">Conecta tu cuenta de Spotify para acceder a millones de canciones</p>
   </div>
 
-  <!-- Songs Table -->
-  <table class="w-full text-left border-collapse text-[#ccc]">
-    <thead class="border-b border-[#333] text-[#999]">
-      <tr>
-        <th class="pb-2">#</th>
-        <th class="pb-2">Title</th>
-        <th class="pb-2">Artist</th>
-        <th class="pb-2">Time</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="hover:bg-[#2a2a2a]">
-        <td>1</td>
-        <td>Fortnight (feat. Post Malone)</td>
-        <td>Post Malone</td>
-        <td>3:48</td>
-      </tr>
-      <tr class="hover:bg-[#2a2a2a]">
-        <td>2</td>
-        <td>The Tortured Poets Department</td>
-        <td>Taylor Swift</td>
-        <td>4:53</td>
-      </tr>
-      <tr class="hover:bg-[#2a2a2a]">
-        <td>3</td>
-        <td>My Boy Only Breaks His Favorite Toys</td>
-        <td>Taylor Swift</td>
-        <td>3:23</td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- Loading -->
+  <div *ngIf="isLoading" class="text-center py-20">
+    <div class="inline-block animate-spin rounded-full h-12 w-12 border-4 border-green-500 border-t-transparent"></div>
+    <p class="text-gray-400 mt-4">Buscando música...</p>
+  </div>
+
+  <!-- Results -->
+  <div *ngIf="isAuthenticated && !isLoading && tracks.length > 0">
+    <h2 class="text-2xl font-bold mb-6 text-white">Resultados de búsqueda</h2>
+
+    <!-- Songs Table -->
+    <table class="w-full text-left border-collapse text-[#ccc]">
+      <thead class="border-b border-[#333] text-[#999]">
+        <tr>
+          <th class="pb-2 w-12">#</th>
+          <th class="pb-2">Title</th>
+          <th class="pb-2">Album</th>
+          <th class="pb-2">Artist</th>
+          <th class="pb-2 text-right">Time</th>
+          <th class="pb-2 w-20"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr 
+          *ngFor="let track of tracks; let i = index" 
+          class="hover:bg-[#2a2a2a] cursor-pointer group"
+        >
+          <td class="py-3">
+            <span class="group-hover:hidden">{{ i + 1 }}</span>
+            <button 
+              (click)="playTrack(track)"
+              class="hidden group-hover:block text-green-500 hover:text-green-400"
+            >
+              <i class='bx bx-play text-xl'></i>
+            </button>
+          </td>
+          <td class="py-3">
+            <div class="flex items-center gap-3">
+              <img 
+                [src]="track.album.images[2]?.url || track.album.images[0]?.url" 
+                [alt]="track.name"
+                class="w-10 h-10 rounded"
+              >
+              <span class="font-medium text-white">{{ track.name }}</span>
+            </div>
+          </td>
+          <td class="py-3 text-gray-400">{{ track.album.name }}</td>
+          <td class="py-3 text-gray-400">{{ getArtistNames(track) }}</td>
+          <td class="py-3 text-gray-400 text-right">
+            {{ formatDuration(track.duration_ms) }}
+          </td>
+          <td class="py-3">
+            <button class="opacity-0 group-hover:opacity-100 text-gray-400 hover:text-white">
+              <i class='bx bx-heart text-xl'></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- No results -->
+  <div *ngIf="isAuthenticated && !isLoading && tracks.length === 0 && searchQuery" class="text-center py-20">
+    <i class='bx bx-search-alt text-6xl text-gray-600 mb-4'></i>
+    <h2 class="text-2xl font-bold mb-2 text-white">No se encontraron resultados</h2>
+    <p class="text-gray-400">Intenta buscar con otros términos</p>
+  </div>
 
 </main>

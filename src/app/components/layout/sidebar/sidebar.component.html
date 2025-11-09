@@ -1,6 +1,30 @@
 <aside class="w-64 bg-black text-gray-300 flex flex-col p-6 h-screen overflow-y-auto">
   <h1 class="text-3xl font-bold mb-8 text-white">Spotify</h1>
 
+  <div class="mb-6" *ngIf="!isAuthenticated">
+    <button 
+      (click)="login()"
+      class="w-full bg-green-500 hover:bg-green-600 text-black font-bold py-3 px-4 rounded-full transition-colors"
+    >
+      Login con Spotify
+    </button>
+  </div>
+
+  <div class="mb-6 pb-4 border-b border-gray-800" *ngIf="isAuthenticated">
+    <div class="flex items-center gap-3 mb-3">
+      <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-black font-bold">
+        {{ userName.charAt(0).toUpperCase() }}
+      </div>
+      <span class="text-white font-semibold">{{ userName }}</span>
+    </div>
+    <button 
+      (click)="logout()"
+      class="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-full transition-colors text-sm"
+    >
+      Cerrar sesión
+    </button>
+  </div>
+
   <nav class="flex flex-col gap-4">
     <a href="#" class="flex items-center gap-3 hover:text-white">
       <i class='bx bx-home'></i> Home
@@ -13,7 +37,7 @@
     </a>
   </nav>
 
-  <div class="mt-10">
+  <div class="mt-10" *ngIf="isAuthenticated">
     <h2 class="text-gray-400 text-sm mb-4">Playlists</h2>
     <ul class="flex flex-col gap-2">
       <li><a href="#" class="hover:text-white">Liked Songs</a></li>
