@@ -1,16 +1,17 @@
-<aside class="w-72 bg-[#181818] border-l border-[#333] p-5 h-screen overflow-y-auto">
-
-  <h3 class="text-white mb-4 text-lg font-semibold">Daily Mix 2</h3>
+<aside 
+  class="w-72 bg-[#181818] border-l border-[#333] p-5 h-screen overflow-y-auto cursor-pointer"
+  (click)="goToInformation()"
+>
+  <h3 class="text-white mb-4 text-lg font-semibold">{{ songTitle }}</h3>
 
   <img 
-    src="https://upload.wikimedia.org/wikipedia/en/f/f2/Taylor_Swift_-_Reputation.png" 
-    alt="Daily Mix" 
+    [src]="coverUrl" 
+    alt="Album Cover" 
     class="w-full rounded-lg mb-4"
   >
 
   <p class="text-[#b3b3b3]">
-    <strong class="text-white">Getaway Car</strong><br>
-    <span>Taylor Swift</span>
+    <strong class="text-white">{{ songTitle }}</strong><br>
+    <span>{{ artistName }}</span>
   </p>
-
 </aside>
